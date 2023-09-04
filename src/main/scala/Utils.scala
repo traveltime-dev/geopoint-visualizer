@@ -55,7 +55,7 @@ object Utils {
             case Red  => 0
             case Blue => 1
             case _    => 2
-          }) // Generate a unique ID for each feature
+          })
         ),
         "geometry" -> Json.obj(
           "type" -> "Point",

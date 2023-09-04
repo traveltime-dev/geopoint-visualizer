@@ -34,12 +34,24 @@ object Utils {
       inputCoordinatesOne: CoordinatesList,
       colorOne: Color,
       inputCoordinatesTwo: CoordinatesList,
-      colorTwo: Color
+      colorTwo: Color,
+      inputCoordinatesThree: CoordinatesList,
+      colorThree: Color,
+      inputCoordinatesFour: CoordinatesList,
+      colorFour: Color,
+      inputCoordinatesFive: CoordinatesList,
+      colorFive: Color
   ): JsValue = {
     val features = createFeatures(
       inputCoordinatesOne,
       colorOne
-    ) ++ createFeatures(inputCoordinatesTwo, colorTwo)
+    ) ++ createFeatures(inputCoordinatesTwo, colorTwo) ++ createFeatures(
+      inputCoordinatesThree,
+      colorThree
+    ) ++ createFeatures(inputCoordinatesFour, colorFour) ++ createFeatures(
+      inputCoordinatesFive,
+      colorFive
+    )
 
     Json.obj(
       "type" -> "FeatureCollection",

@@ -1,4 +1,22 @@
-# Project exclude paths
-/project/target/
-/target/
-/target/scala-2.13/classes/
+*.class
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# sbt
+# (may want to keep parts of 'project')
+bin/
+project/target
+project/project
+target/
+build/
+
+# intellij idea
+*.log
+*.iml
+*.ipr
+*.iws
+.idea
+.bsp
+
+logs/

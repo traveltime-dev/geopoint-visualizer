@@ -1,11 +1,13 @@
 import play.api.libs.json.{JsValue, Json}
 
 object Utils {
-  def parseInput(args: Array[String]): List[List[Double]] = {
+  def parseInput(args: Array[String]): List[List[Option[Double]]] = {
     args.headOption.map(parseInputCoordinates).getOrElse(Nil)
   }
 
-  private def parseInputCoordinates(input: String): List[List[Double]] = {
+  private def parseInputCoordinates(
+      input: String
+  ): List[List[Option[Double]]] = {
     val coordinatesList = input
       .stripPrefix("[[")
       .stripSuffix("]]")
@@ -13,12 +15,12 @@ object Utils {
       .toList
 
     coordinatesList.map { coordString =>
-      coordString.split(",").map(_.trim.toDouble).toList
+      coordString.split(",").map(_.trim.toDoubleOption).toList
     }
   }
 
   def createFeatureCollection(
-      inputCoordinates: List[List[Double]]
+      inputCoordinates: List[List[Option[Double]]]
   ): JsValue = {
     val features = inputCoordinates.map { coordinates =>
       Json.obj(

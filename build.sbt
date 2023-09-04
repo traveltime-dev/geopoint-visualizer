@@ -8,3 +8,4 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.4"
+libraryDependencies += "com.monovore" %% "decline" % "2.4.1"

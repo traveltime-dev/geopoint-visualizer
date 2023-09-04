@@ -17,9 +17,12 @@
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.core:jackson-databind:2.11.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.11.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.11.4:jar" level="project" />
+    <orderEntry type="library" name="sbt: com.monovore:decline_2.13:2.4.1:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-functional_2.13:2.9.4:jar" level="project" />
     <orderEntry type="library" name="sbt: com.typesafe.play:play-json_2.13:2.9.4:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.11:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-reflect:2.13.11:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-core_2.13:2.9.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.typelevel:cats-kernel_2.13:2.9.0:jar" level="project" />
   </component>
 </module>

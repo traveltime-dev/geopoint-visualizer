@@ -1,17 +1,19 @@
+import Models._
+import Codecs._
 import play.api.libs.json.{JsValue, Json}
 
 object Utils {
   def parseInput(
       input: Option[String],
       swap: Boolean
-  ): List[List[Option[Double]]] = {
+  ): CoordinatesList = {
     input.map(parseInputCoordinates(_, swap)).getOrElse(Nil)
   }
 
   private def parseInputCoordinates(
       input: String,
       swap: Boolean
-  ): List[List[Option[Double]]] = {
+  ): CoordinatesList = {
     val coordinatesList = input
       .stripPrefix("[[")
       .stripSuffix("]]")
@@ -29,9 +31,9 @@ object Utils {
   }
 
   def createFeatureCollection(
-      inputCoordinatesOne: List[List[Option[Double]]],
+      inputCoordinatesOne: CoordinatesList,
       colorOne: Color,
-      inputCoordinatesTwo: List[List[Option[Double]]],
+      inputCoordinatesTwo: CoordinatesList,
       colorTwo: Color
   ): JsValue = {
     val features = createFeatures(
@@ -46,7 +48,7 @@ object Utils {
   }
 
   private def createFeatures(
-      inputCoordinates: List[List[Option[Double]]],
+      inputCoordinates: CoordinatesList,
       color: Color
   ): List[JsValue] = {
     inputCoordinates.map { coordinates =>

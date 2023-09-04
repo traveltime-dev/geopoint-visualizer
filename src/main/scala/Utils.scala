@@ -67,10 +67,8 @@ object Utils {
       Json.obj(
         "type" -> "Feature",
         "properties" -> Json.obj(
-          "marker-color" -> color.hexValue,
-          "marker-size" -> "medium",
-          "marker-symbol" -> "circle",
-          "id" -> color.id
+          "marker-size" -> "large",
+          "marker-symbol" -> "circle"
         ),
         "geometry" -> Json.obj(
           "type" -> "Point",

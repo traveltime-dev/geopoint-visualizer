@@ -1,8 +1,8 @@
 import play.api.libs.json.{JsValue, Json}
 
 object Utils {
-  def parseInput(args: Array[String]): List[List[Option[Double]]] = {
-    args.headOption.map(parseInputCoordinates).getOrElse(Nil)
+  def parseInput(input: Option[String]): List[List[Option[Double]]] = {
+    input.map(parseInputCoordinates).getOrElse(Nil)
   }
 
   private def parseInputCoordinates(
@@ -20,22 +20,48 @@ object Utils {
   }
 
   def createFeatureCollection(
-      inputCoordinates: List[List[Option[Double]]]
+      inputCoordinatesOne: List[List[Option[Double]]],
+      colorOne: Color,
+      inputCoordinatesTwo: List[List[Option[Double]]],
+      colorTwo: Color
   ): JsValue = {
-    val features = inputCoordinates.map { coordinates =>
+    val features = createFeatures(
+      inputCoordinatesOne,
+      colorOne
+    ) ++ createFeatures(inputCoordinatesTwo, colorTwo)
+
+    Json.obj(
+      "type" -> "FeatureCollection",
+      "features" -> features
+    )
+  }
+
+  private def createFeatures(
+      inputCoordinates: List[List[Option[Double]]],
+      color: Color
+  ): List[JsValue] = {
+    inputCoordinates.map { coordinates =>
       Json.obj(
         "type" -> "Feature",
-        "properties" -> Json.obj(),
+        "properties" -> Json.obj(
+          "marker-color" -> (color match {
+            case Red  => "#ed333b"
+            case Blue => "#1c71d8"
+            case _    => "#77767b"
+          }),
+          "marker-size" -> "medium",
+          "marker-symbol" -> "circle",
+          "id" -> (color match {
+            case Red  => 0
+            case Blue => 1
+            case _    => 2
+          }) // Generate a unique ID for each feature
+        ),
         "geometry" -> Json.obj(
           "type" -> "Point",
           "coordinates" -> coordinates
         )
       )
     }
-
-    Json.obj(
-      "type" -> "FeatureCollection",
-      "features" -> features
-    )
   }
 }

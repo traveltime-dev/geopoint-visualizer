@@ -3,9 +3,15 @@ import Utils._
 
 object MainApp {
   def main(args: Array[String]): Unit = {
-    val inputCoordinates = parseInput(args)
+    val inputCoordinatesOne = parseInput(args.headOption)
+    val inputCoordinatesTwo = parseInput(args.lift(1))
 
-    val featureCollection = createFeatureCollection(inputCoordinates)
+    val featureCollection = createFeatureCollection(
+      inputCoordinatesOne,
+      Blue,
+      inputCoordinatesTwo,
+      Red
+    )
 
     val geoJsonString = Json.prettyPrint(featureCollection)
 

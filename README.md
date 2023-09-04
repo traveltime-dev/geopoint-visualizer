@@ -19,8 +19,8 @@ cd geojsonFormatter
 ```
 
 ## Usage
-Start sbt, pass in input
+Start sbt, pass in input (up to two lists)
 ```bash
 sbt
-run "[[12.4324, 21.23123], [12.5324, 21.23123], [13.4324, 21.23123]]"
+run "[[12.4324, 21.23123], [12.5324, 21.23123]]" "[[13.4324, 21.23123], [13.5324, 21.23123]]"
 ```

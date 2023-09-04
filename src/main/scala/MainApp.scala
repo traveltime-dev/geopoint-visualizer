@@ -3,8 +3,13 @@ import Utils._
 
 object MainApp {
   def main(args: Array[String]): Unit = {
-    val inputCoordinatesOne = parseInput(args.headOption)
-    val inputCoordinatesTwo = parseInput(args.lift(1))
+    val swap: Boolean = args.lift(2) match {
+      case Some(value) => if (value == "swap") true else false
+      case None        => false
+    }
+
+    val inputCoordinatesOne = parseInput(args.headOption, swap)
+    val inputCoordinatesTwo = parseInput(args.lift(1), swap)
 
     val featureCollection = createFeatureCollection(
       inputCoordinatesOne,

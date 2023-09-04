@@ -1,12 +1,16 @@
 import play.api.libs.json.{JsValue, Json}
 
 object Utils {
-  def parseInput(input: Option[String]): List[List[Option[Double]]] = {
-    input.map(parseInputCoordinates).getOrElse(Nil)
+  def parseInput(
+      input: Option[String],
+      swap: Boolean
+  ): List[List[Option[Double]]] = {
+    input.map(parseInputCoordinates(_, swap)).getOrElse(Nil)
   }
 
   private def parseInputCoordinates(
-      input: String
+      input: String,
+      swap: Boolean
   ): List[List[Option[Double]]] = {
     val coordinatesList = input
       .stripPrefix("[[")
@@ -15,7 +19,12 @@ object Utils {
       .toList
 
     coordinatesList.map { coordString =>
-      coordString.split(",").map(_.trim.toDoubleOption).toList
+      val coordinates = coordString.split(",").map(_.trim.toDoubleOption).toList
+      if (swap && coordinates.length >= 2) {
+        List(coordinates(1), coordinates.head)
+      } else {
+        coordinates
+      }
     }
   }
 

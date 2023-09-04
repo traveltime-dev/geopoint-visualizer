@@ -55,18 +55,10 @@ object Utils {
       Json.obj(
         "type" -> "Feature",
         "properties" -> Json.obj(
-          "marker-color" -> (color match {
-            case Red  => "#ed333b"
-            case Blue => "#1c71d8"
-            case _    => "#77767b"
-          }),
+          "marker-color" -> color.hexValue,
           "marker-size" -> "medium",
           "marker-symbol" -> "circle",
-          "id" -> (color match {
-            case Red  => 0
-            case Blue => 1
-            case _    => 2
-          })
+          "id" -> color.id
         ),
         "geometry" -> Json.obj(
           "type" -> "Point",

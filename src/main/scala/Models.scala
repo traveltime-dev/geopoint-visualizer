@@ -1,5 +1,4 @@
 import io.circe._
-import io.circe.generic.semiauto.deriveDecoder
 
 object Models {
   case class CoordinatesList(points: List[List[Option[Double]]]) {

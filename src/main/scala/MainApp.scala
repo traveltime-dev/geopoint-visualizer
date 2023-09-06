@@ -1,5 +1,4 @@
 import Utils._
-
 import java.awt.Desktop
 import java.net.{URI, URLEncoder}
 

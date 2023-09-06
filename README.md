@@ -24,3 +24,7 @@ Start sbt, pass in input (up to 5 lists). `swap=true` swaps longitude and latitu
 sbt
 run swap=true "[[12.4324, 21.23123], [12.5324, 21.23123]]" "[[13.4324, 21.23123], [13.5324, 21.23123]]"
 ```
+
+## Result
+
+![image](https://github.com/arnasbr/geojsonFormatter/assets/140691866/2cc9d5ae-46f5-4c3b-9db3-0776b12db80f)

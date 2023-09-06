@@ -29,6 +29,8 @@ object MainApp {
       Purple
     )
 
+    println(featureCollection)
+
     val encodedJsonString =
       URLEncoder.encode(featureCollection.toString(), "UTF-8")
 

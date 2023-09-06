@@ -1,54 +1,56 @@
 import Models._
-import Codecs._
 import play.api.libs.json.{JsValue, Json}
+import io.circe.parser._
 
 object Utils {
   def parseInput(
       input: Option[String],
       swap: Boolean
-  ): CoordinatesList = {
-    input.map(parseInputCoordinates(_, swap)).getOrElse(Nil)
+  ): Option[CoordinatesList] = {
+    input.flatMap(parseInputCoordinates(_, swap))
   }
 
   private def parseInputCoordinates(
       input: String,
       swap: Boolean
-  ): CoordinatesList = {
-    val pattern = "\\[(\\d+\\.\\d+), (\\d+\\.\\d+)]".r
+  ): Option[CoordinatesList] = {
+    val json = parse(input)
 
-    pattern
-      .findAllMatchIn(input)
-      .map { m =>
-        val coord1 = m.group(1).toDoubleOption
-        val coord2 = m.group(2).toDoubleOption
-        if (swap) List(coord2, coord1)
-        else List(coord1, coord2)
-      }
-      .toList
+    json
+      .flatMap(_.as[CoordinatesList].map { coordinatesList =>
+        if (swap) {
+          val swappedCoordinates = coordinatesList.points.map {
+            case List(Some(coord1), Some(coord2)) =>
+              List(Some(coord2), Some(coord1))
+            case _ => Nil
+          }
+          CoordinatesList(swappedCoordinates)
+        } else {
+          coordinatesList
+        }
+      })
+      .toOption
   }
 
   def createFeatureCollection(
-      inputCoordinatesOne: CoordinatesList,
+      inputCoordinatesOneOpt: Option[CoordinatesList],
       colorOne: Color,
-      inputCoordinatesTwo: CoordinatesList,
+      inputCoordinatesTwoOpt: Option[CoordinatesList],
       colorTwo: Color,
-      inputCoordinatesThree: CoordinatesList,
+      inputCoordinatesThreeOpt: Option[CoordinatesList],
       colorThree: Color,
-      inputCoordinatesFour: CoordinatesList,
+      inputCoordinatesFourOpt: Option[CoordinatesList],
       colorFour: Color,
-      inputCoordinatesFive: CoordinatesList,
+      inputCoordinatesFiveOpt: Option[CoordinatesList],
       colorFive: Color
   ): JsValue = {
-    val features = createFeatures(
-      inputCoordinatesOne,
-      colorOne
-    ) ++ createFeatures(inputCoordinatesTwo, colorTwo) ++ createFeatures(
-      inputCoordinatesThree,
-      colorThree
-    ) ++ createFeatures(inputCoordinatesFour, colorFour) ++ createFeatures(
-      inputCoordinatesFive,
-      colorFive
-    )
+    val features = Seq(
+      createFeatures(inputCoordinatesOneOpt, colorOne),
+      createFeatures(inputCoordinatesTwoOpt, colorTwo),
+      createFeatures(inputCoordinatesThreeOpt, colorThree),
+      createFeatures(inputCoordinatesFourOpt, colorFour),
+      createFeatures(inputCoordinatesFiveOpt, colorFive)
+    ).flatten
 
     Json.obj(
       "type" -> "FeatureCollection",
@@ -57,10 +59,13 @@ object Utils {
   }
 
   private def createFeatures(
-      inputCoordinates: CoordinatesList,
+      inputCoordinatesOpt: Option[CoordinatesList],
       color: Color
   ): List[JsValue] = {
-    inputCoordinates.map { coordinates =>
+    for {
+      inputCoordinates <- inputCoordinatesOpt.toList
+      coordinates <- inputCoordinates.points
+    } yield {
       Json.obj(
         "type" -> "Feature",
         "properties" -> Json.obj(

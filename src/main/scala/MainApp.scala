@@ -44,7 +44,5 @@ object MainApp {
     if (Desktop.isDesktopSupported) {
       Desktop.getDesktop.browse(new URI(staticImageUrl))
     }
-
-    println(staticImageUrl)
   }
 }

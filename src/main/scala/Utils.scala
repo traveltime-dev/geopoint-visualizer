@@ -14,20 +14,17 @@ object Utils {
       input: String,
       swap: Boolean
   ): CoordinatesList = {
-    val coordinatesList = input
-      .stripPrefix("[[")
-      .stripSuffix("]]")
-      .split("],\\s*\\[")
-      .toList
+    val pattern = "\\[(\\d+\\.\\d+), (\\d+\\.\\d+)]".r
 
-    coordinatesList.map { coordString =>
-      val coordinates = coordString.split(",").map(_.trim.toDoubleOption).toList
-      if (swap && coordinates.length >= 2) {
-        List(coordinates(1), coordinates.head)
-      } else {
-        coordinates
+    pattern
+      .findAllMatchIn(input)
+      .map { m =>
+        val coord1 = m.group(1).toDoubleOption
+        val coord2 = m.group(2).toDoubleOption
+        if (swap) List(coord2, coord1)
+        else List(coord1, coord2)
       }
-    }
+      .toList
   }
 
   def createFeatureCollection(

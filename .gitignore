@@ -19,4 +19,6 @@ build/
 .idea
 .bsp
 
+outputDir
+
 logs/

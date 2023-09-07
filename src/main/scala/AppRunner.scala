@@ -44,6 +44,7 @@ object AppRunner {
     cmd.!
 
     //Uncomment this line if you want the output image to be opened in the browser automatically
+    //Also useful when image generation is not working (Mapbox api will show error message)
     //openInBrowser(staticImageUrl)
   }
 }

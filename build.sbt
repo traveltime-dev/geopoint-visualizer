@@ -13,3 +13,4 @@ libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.5.0"
 libraryDependencies += "io.circe" %% "circe-core" % circeVersion
 libraryDependencies += "io.circe" %% "circe-parser" % circeVersion
 libraryDependencies += "io.circe" %% "circe-generic" % circeVersion
+libraryDependencies += "com.monovore" %% "decline" % "2.4.1"

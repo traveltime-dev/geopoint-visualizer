@@ -3,9 +3,9 @@ import java.net.URLEncoder
 import scala.sys.process._
 
 object AppRunner {
-  def run(args: Array[String]): Unit = {
+  def run(args: List[String]): Unit = {
     val swap: Boolean = args.headOption match {
-      case Some(value) => value == "swap=true"
+      case Some(value) => value == "true"
       case None        => false
     }
 

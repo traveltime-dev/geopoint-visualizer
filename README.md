@@ -19,10 +19,12 @@ cd geojson-formatter
 ```
 
 ## Usage
-Start sbt, pass in input (up to 5 lists). `swap=true` swaps longitude and latitude. `swap=true` or `swap=false` is mandatory.
+Start sbt, pass in input. `run plot --help` for help
+
+#### Example
 ```bash
 sbt
-run swap=true "[[12.4324, 21.23123], [12.5324, 21.23123]]" "[[13.4324, 21.23123], [13.5324, 21.23123]]"
+run plot --swap true --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
 ```
 
 ## Result

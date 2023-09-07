@@ -7,6 +7,15 @@ object Models {
 
   case class Point(lat: Double, lng: Double)
 
+  case class CliArgs(
+      swap: String,
+      inputOne: String,
+      inputTwo: String,
+      inputThree: String,
+      inputFour: String,
+      inputFive: String
+  )
+
   object CoordinatesList {
     implicit val pointDecoder: Decoder[Point] = (c: HCursor) =>
       for {

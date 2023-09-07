@@ -19,11 +19,8 @@ object Utils {
     json
       .flatMap(_.as[CoordinatesList].map { coordinatesList =>
         if (swap) {
-          val swappedCoordinates = coordinatesList.points.map {
-            case List(Some(coord1), Some(coord2)) =>
-              List(Some(coord2), Some(coord1))
-            case _ => Nil
-          }
+          val swappedCoordinates =
+            coordinatesList.points.map(point => Point(point.lng, point.lat))
           CoordinatesList(swappedCoordinates)
         } else {
           coordinatesList
@@ -75,7 +72,7 @@ object Utils {
         ),
         "geometry" -> Json.obj(
           "type" -> "Point",
-          "coordinates" -> coordinates
+          "coordinates" -> List(coordinates.lat, coordinates.lng)
         )
       )
     }

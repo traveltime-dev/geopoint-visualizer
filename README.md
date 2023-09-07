@@ -14,8 +14,8 @@ To install GeoJson Formatter, follow these steps:
 Windows/Mac/Linux:
 
 ```bash
-git clone https://github.com/arnasbr/geojsonFormatter.git
-cd geojsonFormatter
+git clone https://github.com/arnasbr/geojson-formatter.git
+cd geojson-formatter
 ```
 
 ## Usage

@@ -2,6 +2,9 @@ import Models._
 import play.api.libs.json.{JsValue, Json}
 import io.circe.parser._
 
+import java.awt.Desktop
+import java.net.URI
+
 object Utils {
   def parseInput(
       input: Option[String],
@@ -75,6 +78,12 @@ object Utils {
           "coordinates" -> List(coordinates.lat, coordinates.lng)
         )
       )
+    }
+  }
+
+  def openInBrowser(url: String): Unit = {
+    if (Desktop.isDesktopSupported) {
+      Desktop.getDesktop.browse(new URI(url))
     }
   }
 }

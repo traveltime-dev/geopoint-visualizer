@@ -6,7 +6,7 @@ import java.net.{URI, URLEncoder}
 object AppRunner {
   def run(args: Array[String]): Unit = {
     val swap: Boolean = args.headOption match {
-      case Some(value) => if (value == "swap=true") true else false
+      case Some(value) => value == "swap=true"
       case None        => false
     }
 

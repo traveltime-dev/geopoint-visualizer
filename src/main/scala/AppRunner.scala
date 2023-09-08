@@ -40,7 +40,7 @@ object AppRunner {
     val outputPath = "outputDir/output.png"
 
     val staticImageUrl =
-      s"https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson($encodedJsonString)/auto/${imageWidth}x$imageHeight?access_token=$apiKey"
+      s"https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson($encodedJsonString)/auto/${imageWidth}x$imageHeight?access_token=$apiKey"
 
     executeImageGeneration(
       downloadFlag,

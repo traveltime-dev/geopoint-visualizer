@@ -74,26 +74,33 @@ object Utils {
     }
   }
 
-  def openInBrowser(url: String): Unit = {
+  private def openInBrowser(url: String): Unit = {
     if (Desktop.isDesktopSupported) {
       Desktop.getDesktop.browse(new URI(url))
     }
   }
 
+  private def downloadImage(outputPath: String, url: String): Unit = {
+    s"curl -o $outputPath $url".!
+  }
+
   def executeImageGeneration(
       downloadFlag: Boolean,
       browserFlag: Boolean,
-      downloadCmd: String,
-      openInBrowser: Unit
+      outputPath: String,
+      url: String
   ): Any = {
     (downloadFlag, browserFlag) match {
       case (false, false) =>
-        downloadCmd.! //If neither flag is picked, the default is to download the image
-      case (true, false) => downloadCmd.!
-      case (false, true) => openInBrowser
+        downloadImage(
+          outputPath,
+          url
+        ) //If neither flag is picked, the default is to download the image
+      case (true, false) => downloadImage(outputPath, url)
+      case (false, true) => openInBrowser(url)
       case (true, true) =>
-        downloadCmd.!
-        openInBrowser
+        downloadImage(outputPath, url)
+        openInBrowser(url)
     }
   }
 }

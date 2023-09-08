@@ -6,10 +6,6 @@ object MainApp
       name = "geojson-formatter",
       header = "Plots given points on a map",
       main = {
-        Cli.command.map { args =>
-          val cliArgs = args
-
-          run(cliArgs)
-        }
+        Cli.command.map(args => run(args))
       }
     )

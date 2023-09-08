@@ -1,8 +1,8 @@
-# GeoJson Formatter
+# GeoPoint Visualizer
 
 ## Project Description
 
-Project to convert a list of point coordinates into GeoJson format.
+Create an image of a map with given point coordinates.
 
 ## Prerequisites
 You need to have [SBT](https://www.scala-sbt.org/download.html) installed on your machine to run this project.
@@ -14,15 +14,15 @@ To install GeoJson Formatter, follow these steps:
 Windows/Mac/Linux:
 
 ```bash
-$ git clone https://github.com/arnasbr/geojson-formatter.git
-$ cd geojson-formatter
+$ git clone https://github.com/arnasbr/geopoint-visualizer.git
+$ cd geopoint-visualizer
 ```
 
 ## Usage
 Start sbt, pass in input. `run plot --help` for help
 
 ```
-Usage: geojson-formatter plot [--swap] [--download] [--browser] [--img_size <integer>] --arg1 <string> [--arg2 <string>] [--arg3 <string>] [--arg4 <string>] [--arg5 <string>]
+Usage:  geopoint-visualizer plot [--swap] [--download] [--browser] [--img_size <integer>] --arg1 <string> [--arg2 <string>] [--arg3 <string>] [--arg4 <string>] [--arg5 <string>]
 
 Plots given points on a map
 
@@ -54,11 +54,10 @@ If neither --download or --browser flags are chosen, by default only --download 
 #### Example
 ```bash
 $ sbt
-sbt:geojson-formatter> run plot --swap --download --browser --img_size 1280 --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
+sbt: geopoint-visualizer> run plot --swap --download --browser --img_size 1280 --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
 ```
 
 ## Result example
 
-![image](https://github.com/arnasbr/geojson-formatter/assets/140691866/81532919-b895-423b-b391-cfc856cd37b9)
 
 

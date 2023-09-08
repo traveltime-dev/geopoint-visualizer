@@ -54,10 +54,10 @@ If neither --download or --browser flags are chosen, by default only --download 
 #### Example
 ```bash
 $ sbt
-sbt: geopoint-visualizer> run plot --swap --download --browser --img_size 1280 --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
+sbt: geopoint-visualizer> run plot --swap --download --browser --img_size 1000 --arg1 "[[51.499619505045594, -0.12919985466434053], [51.50100111778079, -0.1260742794737267]]" --arg2 "[[51.49773913640009, -0.12759766906242925], [51.4976573794818, -0.12713802565204485]]" --arg3 "[[51.50098549574263, -0.12404558008490205]]"
 ```
 
-## Result example
+## Result
 
 ![image](https://github.com/arnasbr/geopoint-visualizer/assets/140691866/dd311615-b5e2-4135-b26b-3f69e4e73a20)
 

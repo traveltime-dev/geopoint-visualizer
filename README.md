@@ -21,7 +21,7 @@ $ cd geojson-formatter
 ## Usage
 Start sbt, pass in input. `run plot --help` for help
 
-```bash
+```
 Usage: geojson-formatter plot [--swap] [--download] [--browser] --arg1 <string> [--arg2 <string>] [--arg3 <string>] [--arg4 <string>] [--arg5 <string>]
 
 Plots given points on a map

@@ -1,19 +1,12 @@
 import Models._
 import play.api.libs.json.{JsValue, Json}
 import io.circe.parser._
-
+import scala.sys.process._
 import java.awt.Desktop
 import java.net.URI
 
 object Utils {
-  def parseInput(
-      input: Option[String],
-      swap: Boolean
-  ): Option[CoordinatesList] = {
-    input.flatMap(parseInputCoordinates(_, swap))
-  }
-
-  private def parseInputCoordinates(
+  def parseInputCoordinates(
       input: String,
       swap: Boolean
   ): Option[CoordinatesList] = {
@@ -84,6 +77,23 @@ object Utils {
   def openInBrowser(url: String): Unit = {
     if (Desktop.isDesktopSupported) {
       Desktop.getDesktop.browse(new URI(url))
+    }
+  }
+
+  def executeImageGeneration(
+      downloadFlag: Boolean,
+      browserFlag: Boolean,
+      downloadCmd: String,
+      openInBrowser: Unit
+  ): Any = {
+    (downloadFlag, browserFlag) match {
+      case (false, false) =>
+        downloadCmd.! //If neither flag is picked, the default is to download the image
+      case (true, false) => downloadCmd.!
+      case (false, true) => openInBrowser
+      case (true, true) =>
+        downloadCmd.!
+        openInBrowser
     }
   }
 }

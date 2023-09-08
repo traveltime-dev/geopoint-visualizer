@@ -1,19 +1,19 @@
 import Utils._
 import java.net.URLEncoder
 import scala.sys.process._
+import Models.CliArgs
 
 object AppRunner {
-  def run(args: List[String]): Unit = {
-    val swap: Boolean = args.headOption match {
-      case Some(value) => value == "true"
-      case None        => false
-    }
+  def run(args: CliArgs): Unit = {
+    val swapFlag = args.swap
+    val downloadFlag = args.download
+    val browserFlag = args.browser
 
-    val inputCoordinatesOne = parseInput(args.lift(1), swap)
-    val inputCoordinatesTwo = parseInput(args.lift(2), swap)
-    val inputCoordinatesThree = parseInput(args.lift(3), swap)
-    val inputCoordinatesFour = parseInput(args.lift(4), swap)
-    val inputCoordinatesFive = parseInput(args.lift(5), swap)
+    val inputCoordinatesOne = parseInputCoordinates(args.inputOne, swapFlag)
+    val inputCoordinatesTwo = parseInputCoordinates(args.inputTwo, swapFlag)
+    val inputCoordinatesThree = parseInputCoordinates(args.inputThree, swapFlag)
+    val inputCoordinatesFour = parseInputCoordinates(args.inputFour, swapFlag)
+    val inputCoordinatesFive = parseInputCoordinates(args.inputFive, swapFlag)
 
     val featureCollection = createFeatureCollection(
       inputCoordinatesOne,
@@ -40,11 +40,13 @@ object AppRunner {
     val staticImageUrl =
       s"https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson($encodedJsonString)/auto/${imageWidth}x$imageHeight?access_token=$apiKey"
 
-    val cmd = s"curl -o $outputPath $staticImageUrl"
-    cmd.!
+    val downloadCommand = s"curl -o $outputPath $staticImageUrl"
 
-    //Uncomment this line if you want the output image to be opened in the browser automatically
-    //Also useful when image generation is not working (Mapbox api will show error message)
-    //openInBrowser(staticImageUrl)
+    executeImageGeneration(
+      downloadFlag,
+      browserFlag,
+      downloadCommand,
+      openInBrowser(staticImageUrl)
+    )
   }
 }

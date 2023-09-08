@@ -8,7 +8,9 @@ object Models {
   case class Point(lat: Double, lng: Double)
 
   case class CliArgs(
-      swap: String,
+      swap: Boolean,
+      download: Boolean,
+      browser: Boolean,
       inputOne: String,
       inputTwo: String,
       inputThree: String,

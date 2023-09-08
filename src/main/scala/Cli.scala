@@ -1,14 +1,28 @@
 import Models.CliArgs
-import cats.implicits.catsSyntaxTuple6Semigroupal
+import cats.implicits.catsSyntaxTuple8Semigroupal
 import com.monovore.decline._
 
 object Cli {
-  private val swap: Opts[String] = Opts
-    .option[String](
+  private val swap: Opts[Boolean] = Opts
+    .flag(
       "swap",
-      help = "`true` if latitude and longitude should be swapped"
+      help = "Flag to indicate if latitude and longitude should be swapped"
     )
-    .withDefault("false")
+    .orFalse
+
+  private val download: Opts[Boolean] = Opts
+    .flag(
+      "download",
+      help = "Flag to indicate if image should be downloaded to outputDir"
+    )
+    .orFalse
+
+  private val browser: Opts[Boolean] = Opts
+    .flag(
+      "browser",
+      help = "Flag to indicate if image should be opened in browser"
+    )
+    .orFalse
 
   private val inputCoordsOne: Opts[String] =
     Opts.option[String]("arg1", help = "Input coordinates")
@@ -37,6 +51,8 @@ object Cli {
     Command(name = "plot", header = "Plots given points on a map")(
       (
         swap,
+        download,
+        browser,
         inputCoordsOne,
         inputCoordsTwo,
         inputCoordsThree,

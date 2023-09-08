@@ -7,16 +7,9 @@ object MainApp
       header = "Plots given points on a map",
       main = {
         Cli.command.map { args =>
-          val argsList = List(
-            args.swap,
-            args.inputOne,
-            args.inputTwo,
-            args.inputThree,
-            args.inputFour,
-            args.inputFive
-          )
+          val cliArgs = args
 
-          run(argsList)
+          run(cliArgs)
         }
       }
     )

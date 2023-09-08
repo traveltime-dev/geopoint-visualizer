@@ -1,6 +1,8 @@
-import Utils._
-import java.net.URLEncoder
+import FeatureCreation.createFeatureCollection
 import Models.CliArgs
+import Parsing.parseInputCoordinates
+import ImageGeneration.executeImageGeneration
+import java.net.URLEncoder
 
 object AppRunner {
   def run(args: CliArgs): Unit = {

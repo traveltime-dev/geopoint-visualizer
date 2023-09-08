@@ -59,5 +59,7 @@ sbt: geopoint-visualizer> run plot --swap --download --browser --img_size 1280 -
 
 ## Result example
 
+![image](https://github.com/arnasbr/geopoint-visualizer/assets/140691866/dd311615-b5e2-4135-b26b-3f69e4e73a20)
+
 
 

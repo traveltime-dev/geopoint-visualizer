@@ -14,8 +14,8 @@ To install GeoJson Formatter, follow these steps:
 Windows/Mac/Linux:
 
 ```bash
-git clone https://github.com/arnasbr/geojson-formatter.git
-cd geojson-formatter
+$ git clone https://github.com/arnasbr/geojson-formatter.git
+$ cd geojson-formatter
 ```
 
 ## Usage
@@ -51,8 +51,8 @@ If neither --download or --browser flags are chosen, by default only --download 
 
 #### Example
 ```bash
-sbt
-run plot --swap --download --browser --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
+$ sbt
+sbt:geojson-formatter> run plot --swap --download --browser --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
 ```
 
 ## Result example

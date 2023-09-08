@@ -1,6 +1,5 @@
 import Utils._
 import java.net.URLEncoder
-import scala.sys.process._
 import Models.CliArgs
 
 object AppRunner {

@@ -3,21 +3,21 @@ import cats.implicits.catsSyntaxTuple8Semigroupal
 import com.monovore.decline._
 
 object Cli {
-  private val swap: Opts[Boolean] = Opts
+  private val swapFlag: Opts[Boolean] = Opts
     .flag(
       "swap",
       help = "Flag to indicate if latitude and longitude should be swapped"
     )
     .orFalse
 
-  private val download: Opts[Boolean] = Opts
+  private val downloadFlag: Opts[Boolean] = Opts
     .flag(
       "download",
       help = "Flag to indicate if image should be downloaded to outputDir"
     )
     .orFalse
 
-  private val browser: Opts[Boolean] = Opts
+  private val browserFlag: Opts[Boolean] = Opts
     .flag(
       "browser",
       help = "Flag to indicate if image should be opened in browser"
@@ -50,9 +50,9 @@ object Cli {
   val command: Opts[CliArgs] = Opts.subcommand(
     Command(name = "plot", header = "Plots given points on a map")(
       (
-        swap,
-        download,
-        browser,
+        swapFlag,
+        downloadFlag,
+        browserFlag,
         inputCoordsOne,
         inputCoordsTwo,
         inputCoordsThree,

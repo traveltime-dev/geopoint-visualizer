@@ -6,9 +6,9 @@ import java.net.URLEncoder
 
 object AppRunner {
   def run(args: CliArgs): Unit = {
-    val swapFlag = args.swap
-    val downloadFlag = args.download
-    val browserFlag = args.browser
+    val swapFlag = args.swapFlag
+    val downloadFlag = args.downloadFlag
+    val browserFlag = args.browserFlag
 
     val inputCoordinatesOne = parseInputCoordinates(args.inputOne, swapFlag)
     val inputCoordinatesTwo = parseInputCoordinates(args.inputTwo, swapFlag)

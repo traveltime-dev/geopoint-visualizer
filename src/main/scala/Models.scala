@@ -11,6 +11,7 @@ object Models {
       swapFlag: Boolean,
       downloadFlag: Boolean,
       browserFlag: Boolean,
+      imageSize: Int,
       inputOne: String,
       inputTwo: String,
       inputThree: String,

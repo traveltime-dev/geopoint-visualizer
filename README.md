@@ -22,7 +22,7 @@ $ cd geojson-formatter
 Start sbt, pass in input. `run plot --help` for help
 
 ```
-Usage: geojson-formatter plot [--swap] [--download] [--browser] --arg1 <string> [--arg2 <string>] [--arg3 <string>] [--arg4 <string>] [--arg5 <string>]
+Usage: geojson-formatter plot [--swap] [--download] [--browser] [--img_size <integer>] --arg1 <string> [--arg2 <string>] [--arg3 <string>] [--arg4 <string>] [--arg5 <string>]
 
 Plots given points on a map
 
@@ -30,11 +30,13 @@ Options and flags:
     --help
         Display this help text.
     --swap
-        Flag to indicate if latitude and longitude should be swapped
+        Flag to indicate if latitude and longitude should be swapped (default - false)
     --download
         Flag to indicate if image should be downloaded to outputDir
     --browser
         Flag to indicate if image should be opened in browser
+    --img_size <integer>
+        Image size 1-1280 (default - 1000)
     --arg1 <string>
         Input coordinates
     --arg2 <string>
@@ -52,7 +54,7 @@ If neither --download or --browser flags are chosen, by default only --download 
 #### Example
 ```bash
 $ sbt
-sbt:geojson-formatter> run plot --swap --download --browser --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
+sbt:geojson-formatter> run plot --swap --download --browser --img_size 1280 --arg1 "[[12.4324, 21.23123], [12.5324, 21.23123]]" --arg2 "[[13.4324, 21.23123], [13.5324, 21.23123]]"
 ```
 
 ## Result example

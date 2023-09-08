@@ -34,18 +34,18 @@ object FeatureCreation {
   ): List[JsValue] = {
     for {
       inputCoordinates <- inputCoordinatesOpt.toList
-      coordinates <- inputCoordinates.points
+      coordinates <- inputCoordinates.points.zipWithIndex
     } yield {
       Json.obj(
         "type" -> "Feature",
         "properties" -> Json.obj(
           "marker-color" -> color.hexValue,
           "marker-size" -> "large",
-          "marker-symbol" -> "circle"
+          "marker-symbol" -> (coordinates._2 + 1).toString
         ),
         "geometry" -> Json.obj(
           "type" -> "Point",
-          "coordinates" -> List(coordinates.lat, coordinates.lng)
+          "coordinates" -> List(coordinates._1.lat, coordinates._1.lng)
         )
       )
     }

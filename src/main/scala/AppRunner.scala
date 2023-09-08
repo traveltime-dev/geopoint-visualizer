@@ -9,6 +9,7 @@ object AppRunner {
     val swapFlag = args.swapFlag
     val downloadFlag = args.downloadFlag
     val browserFlag = args.browserFlag
+    val imageSize = args.imageSize
 
     val inputCoordinatesOne = parseInputCoordinates(args.inputOne, swapFlag)
     val inputCoordinatesTwo = parseInputCoordinates(args.inputTwo, swapFlag)
@@ -22,18 +23,18 @@ object AppRunner {
       inputCoordinatesTwo,
       Red,
       inputCoordinatesThree,
-      Green,
+      Purple,
       inputCoordinatesFour,
       Yellow,
       inputCoordinatesFive,
-      Purple
+      Green
     )
 
     val encodedJsonString =
       URLEncoder.encode(featureCollection.toString(), "UTF-8")
 
-    val imageWidth = 1280
-    val imageHeight = 1280
+    val imageWidth = imageSize
+    val imageHeight = imageSize
     val apiKey =
       "pk.eyJ1IjoiYXJuYXNiciIsImEiOiJjbG00dXY1MDAybGJrM2RwNnE2dmo1NW01In0.XC_idJ6KnMWc1N-MX-Ry7A"
     val outputPath = "outputDir/output.png"

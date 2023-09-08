@@ -1,12 +1,13 @@
 import Models.CliArgs
-import cats.implicits.catsSyntaxTuple8Semigroupal
+import cats.implicits.catsSyntaxTuple9Semigroupal
 import com.monovore.decline._
 
 object Cli {
   private val swapFlag: Opts[Boolean] = Opts
     .flag(
       "swap",
-      help = "Flag to indicate if latitude and longitude should be swapped"
+      help =
+        "Flag to indicate if latitude and longitude should be swapped (default - false)"
     )
     .orFalse
 
@@ -23,6 +24,11 @@ object Cli {
       help = "Flag to indicate if image should be opened in browser"
     )
     .orFalse
+
+  private val imageSize: Opts[Int] =
+    Opts
+      .option[Int]("img_size", help = "Image size 1-1280 (default - 1000)")
+      .withDefault(1000)
 
   private val inputCoordsOne: Opts[String] =
     Opts.option[String]("arg1", help = "Input coordinates")
@@ -53,6 +59,7 @@ object Cli {
         swapFlag,
         downloadFlag,
         browserFlag,
+        imageSize,
         inputCoordsOne,
         inputCoordsTwo,
         inputCoordsThree,

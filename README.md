@@ -59,5 +59,6 @@ sbt:geojson-formatter> run plot --swap --download --browser --img_size 1280 --ar
 
 ## Result example
 
-![image](https://github.com/arnasbr/geojson-formatter/assets/140691866/3a3d1aff-77b2-4b05-beb4-e52c529c0963)
+![image](https://github.com/arnasbr/geojson-formatter/assets/140691866/81532919-b895-423b-b391-cfc856cd37b9)
+
 

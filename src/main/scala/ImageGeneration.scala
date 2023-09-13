@@ -18,7 +18,7 @@ object ImageGeneration {
       browserFlag: Boolean,
       outputPath: String,
       url: String
-  ): Any = {
+  ): Unit = {
     (downloadFlag, browserFlag) match {
       case (false, false) =>
         downloadImage(

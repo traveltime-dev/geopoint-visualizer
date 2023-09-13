@@ -1,8 +1,9 @@
 import FeatureCreation.createFeatureCollection
-import Models.CliArgs
+import Models.{CliArgs, OutputFilePath}
 import Parsing.parseInputCoordinates
 import ImageGeneration.executeImageGeneration
-import java.net.URLEncoder
+
+import java.net.{URI, URLEncoder}
 
 object AppRunner {
   def run(args: CliArgs): Unit = {
@@ -37,16 +38,18 @@ object AppRunner {
     val imageHeight = imageSize
     val apiKey =
       "pk.eyJ1IjoiYXJuYXNiciIsImEiOiJjbG00dXY1MDAybGJrM2RwNnE2dmo1NW01In0.XC_idJ6KnMWc1N-MX-Ry7A"
-    val outputPath = "outputDir/output.png"
+    val outputPath = OutputFilePath("outputDir/output.png")
 
-    val staticImageUrl =
-      s"https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson($encodedJsonString)/auto/${imageWidth}x$imageHeight?access_token=$apiKey"
+    val staticImageUri =
+      new URI(
+        s"https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson($encodedJsonString)/auto/${imageWidth}x$imageHeight?access_token=$apiKey"
+      )
 
     executeImageGeneration(
       downloadFlag,
       browserFlag,
       outputPath,
-      staticImageUrl
+      staticImageUri
     )
   }
 }

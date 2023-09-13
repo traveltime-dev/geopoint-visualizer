@@ -29,4 +29,6 @@ object Models {
     implicit val decoder: Decoder[CoordinatesList] = (c: HCursor) =>
       c.as[List[Point]].map(CoordinatesList.apply)
   }
+
+  case class OutputFilePath(path: String)
 }

@@ -1,35 +1,39 @@
+import Models.OutputFilePath
+import akka.http.scaladsl.server.directives.FileAndResourceDirectives.ResourceFile
+import shapeless.Path
+
 import scala.sys.process._
 import java.awt.Desktop
 import java.net.URI
 
 object ImageGeneration {
-  private def openInBrowser(url: String): Unit = {
+  private def openInBrowser(uri: URI): Unit = {
     if (Desktop.isDesktopSupported) {
-      Desktop.getDesktop.browse(new URI(url))
+      Desktop.getDesktop.browse(uri)
     }
   }
 
-  private def downloadImage(outputPath: String, url: String): Unit = {
+  private def downloadImage(outputPath: OutputFilePath, url: URI): Unit = {
     s"curl -o $outputPath $url".!
   }
 
   def executeImageGeneration(
       downloadFlag: Boolean,
       browserFlag: Boolean,
-      outputPath: String,
-      url: String
+      outputPath: OutputFilePath,
+      uri: URI
   ): Unit = {
     (downloadFlag, browserFlag) match {
       case (false, false) =>
         downloadImage(
           outputPath,
-          url
+          uri
         ) //If neither flag is picked, the default is to download the image
-      case (true, false) => downloadImage(outputPath, url)
-      case (false, true) => openInBrowser(url)
+      case (true, false) => downloadImage(outputPath, uri)
+      case (false, true) => openInBrowser(uri)
       case (true, true) =>
-        downloadImage(outputPath, url)
-        openInBrowser(url)
+        downloadImage(outputPath, uri)
+        openInBrowser(uri)
     }
   }
 }

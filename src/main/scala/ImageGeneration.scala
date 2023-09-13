@@ -1,6 +1,4 @@
 import Models.OutputFilePath
-import akka.http.scaladsl.server.directives.FileAndResourceDirectives.ResourceFile
-import shapeless.Path
 
 import scala.sys.process._
 import java.awt.Desktop

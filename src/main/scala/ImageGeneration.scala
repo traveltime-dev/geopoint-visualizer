@@ -1,8 +1,8 @@
 import Models.OutputFilePath
-
-import scala.sys.process._
+import sttp.client4.{DefaultSyncBackend, UriContext, asByteArray, basicRequest}
 import java.awt.Desktop
 import java.net.URI
+import java.nio.file.{Files, Paths}
 
 object ImageGeneration {
   private def openInBrowser(uri: URI): Unit = {
@@ -11,8 +11,19 @@ object ImageGeneration {
     }
   }
 
-  private def downloadImage(outputPath: OutputFilePath, url: URI): Unit = {
-    s"curl -o $outputPath $url".!
+  private def downloadImage(outputPath: OutputFilePath, uri: URI): Unit = {
+    basicRequest
+      .get(uri"${uri.toString}")
+      .response(asByteArray)
+      .send(DefaultSyncBackend())
+      .body match {
+      case Left(message) => println(message)
+      case Right(byteArray) =>
+        Files.write(
+          Paths.get(outputPath.path),
+          byteArray
+        )
+    }
   }
 
   def executeImageGeneration(
@@ -25,7 +36,7 @@ object ImageGeneration {
       case (false, false) =>
         downloadImage(
           outputPath,
-          uri
+          uri: URI
         ) //If neither flag is picked, the default is to download the image
       case (true, false) => downloadImage(outputPath, uri)
       case (false, true) => openInBrowser(uri)

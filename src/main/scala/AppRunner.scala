@@ -2,6 +2,7 @@ import FeatureCreation.createFeatureCollection
 import Models.{CliArgs, OutputFilePath}
 import Parsing.parseInputCoordinates
 import ImageGeneration.executeImageGeneration
+import cats.effect.unsafe.implicits.global
 
 import java.net.{URI, URLEncoder}
 
@@ -50,6 +51,6 @@ object AppRunner {
       browserFlag,
       outputPath,
       staticImageUri
-    )
+    ).unsafeRunSync()
   }
 }

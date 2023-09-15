@@ -1,4 +1,4 @@
-import Models.OutputFilePath
+import Models.FilePath
 import sttp.client4.{DefaultSyncBackend, UriContext, asByteArray, basicRequest}
 
 import java.awt.Desktop
@@ -13,7 +13,7 @@ object ImageGeneration {
     }
   }
 
-  private def downloadImage(outputPath: OutputFilePath, uri: URI): IO[Unit] =
+  private def downloadImage(outputPath: FilePath, uri: URI): IO[Unit] =
     IO {
       basicRequest
         .get(uri"${uri.toString}")
@@ -32,7 +32,7 @@ object ImageGeneration {
   def executeImageGeneration(
       downloadFlag: Boolean,
       browserFlag: Boolean,
-      outputPath: OutputFilePath,
+      outputPath: FilePath,
       uri: URI
   ): IO[Unit] = {
     (downloadFlag, browserFlag) match {

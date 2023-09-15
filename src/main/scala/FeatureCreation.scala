@@ -3,8 +3,6 @@ import io.circe.{Json, Printer}
 import io.circe.syntax._
 
 object FeatureCreation {
-  private val noSpacesPrinter: Printer = Printer.noSpaces
-
   def createFeatureCollection(
       inputCoordinatesOneOpt: Option[CoordinatesList],
       colorOne: Color,
@@ -30,7 +28,7 @@ object FeatureCreation {
       "features" -> features.asJson
     )
 
-    featureCollection.printWith(noSpacesPrinter)
+    featureCollection.printWith(Printer.noSpaces)
   }
 
   private def createFeatures(

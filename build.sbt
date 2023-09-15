@@ -8,9 +8,11 @@ lazy val root = (project in file("."))
   )
 
 val circeVersion = "0.14.5"
-libraryDependencies += "io.circe" %% "circe-core" % circeVersion
-libraryDependencies += "io.circe" %% "circe-parser" % circeVersion
-libraryDependencies += "io.circe" %% "circe-generic" % circeVersion
-libraryDependencies += "com.monovore" %% "decline" % "2.4.1"
-libraryDependencies += "com.softwaremill.sttp.client4" %% "core" % "4.0.0-M4"
-libraryDependencies += "org.typelevel" %% "cats-effect" % "3.5.1"
+libraryDependencies ++= Seq(
+  "io.circe" %% "circe-core" % circeVersion,
+  "io.circe" %% "circe-parser" % circeVersion,
+  "io.circe" %% "circe-generic" % circeVersion,
+  "com.monovore" %% "decline" % "2.4.1",
+  "com.softwaremill.sttp.client4" %% "core" % "4.0.0-M4",
+  "org.typelevel" %% "cats-effect" % "3.5.1"
+)

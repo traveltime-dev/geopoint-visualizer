@@ -1,6 +1,6 @@
 import FeatureCreation.createFeatureCollection
-import Models.{CliArgs, OutputFilePath}
-import Parsing.parseInputCoordinates
+import Models.{CliArgs, FilePath}
+import Parsing.{parseInputCoordinates, readFile}
 import ImageGeneration.executeImageGeneration
 import cats.effect.unsafe.implicits.global
 
@@ -12,34 +12,27 @@ object AppRunner {
     val downloadFlag = args.downloadFlag
     val browserFlag = args.browserFlag
     val imageSize = args.imageSize
+    val inputFile = FilePath(args.inputFile)
 
-    val inputCoordinatesOne = parseInputCoordinates(args.inputOne, swapFlag)
-    val inputCoordinatesTwo = parseInputCoordinates(args.inputTwo, swapFlag)
-    val inputCoordinatesThree = parseInputCoordinates(args.inputThree, swapFlag)
-    val inputCoordinatesFour = parseInputCoordinates(args.inputFour, swapFlag)
-    val inputCoordinatesFive = parseInputCoordinates(args.inputFive, swapFlag)
+    val colors =
+      LazyList.continually(List(Red, Blue, Green, Yellow, Purple)).flatten
+
+    val fileSource = readFile(inputFile)
+    val inputCoordinates = parseInputCoordinates(fileSource, swapFlag)
 
     val featureCollection = createFeatureCollection(
-      inputCoordinatesOne,
-      Blue,
-      inputCoordinatesTwo,
-      Red,
-      inputCoordinatesThree,
-      Purple,
-      inputCoordinatesFour,
-      Yellow,
-      inputCoordinatesFive,
-      Green
+      inputCoordinates,
+      colors
     )
 
     val encodedJsonString =
-      URLEncoder.encode(featureCollection.toString(), "UTF-8")
+      URLEncoder.encode(featureCollection, "UTF-8")
 
     val imageWidth = imageSize
     val imageHeight = imageSize
     val apiKey =
       "pk.eyJ1IjoiYXJuYXNiciIsImEiOiJjbG00dXY1MDAybGJrM2RwNnE2dmo1NW01In0.XC_idJ6KnMWc1N-MX-Ry7A"
-    val outputPath = OutputFilePath("outputDir/output.png")
+    val outputPath = FilePath("outputDir/output.png")
 
     val staticImageUri =
       new URI(

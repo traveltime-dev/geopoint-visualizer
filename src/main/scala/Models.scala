@@ -12,11 +12,7 @@ object Models {
       downloadFlag: Boolean,
       browserFlag: Boolean,
       imageSize: Int,
-      inputOne: String,
-      inputTwo: String,
-      inputThree: String,
-      inputFour: String,
-      inputFive: String
+      inputFile: String
   )
 
   object CoordinatesList {
@@ -30,5 +26,5 @@ object Models {
       c.as[List[Point]].map(CoordinatesList.apply)
   }
 
-  case class OutputFilePath(path: String)
+  case class FilePath(path: String)
 }

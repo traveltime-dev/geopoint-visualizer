@@ -22,7 +22,7 @@ $ cd geopoint-visualizer
 Start sbt, pass in input. `run plot --help` for help
 
 ```
-Usage:  geopoint-visualizer plot [--swap] [--download] [--browser] [--img_size <integer>] --arg1 <string> [--arg2 <string>] [--arg3 <string>] [--arg4 <string>] [--arg5 <string>]
+Usage: geopoint-visualizer plot [--swap] [--download] [--browser] [--img_size <integer>] [--input <string>]
 
 Plots given points on a map
 
@@ -37,24 +37,16 @@ Options and flags:
         Flag to indicate if image should be opened in browser
     --img_size <integer>
         Image size 1-1280 (default - 1000)
-    --arg1 <string>
-        Input coordinates
-    --arg2 <string>
-        Input coordinates (optional)
-    --arg3 <string>
-        Input coordinates (optional)
-    --arg4 <string>
-        Input coordinates (optional)
-    --arg5 <string>
-        Input coordinates (optional)
+    --input <string>
+        Input file path (default - inputDir/input.json)
 ```
 
-If neither --download or --browser flags are chosen, by default only --download will happen
+If neither --download nor --browser flags are chosen, by default only --download will happen
 
 #### Example
 ```bash
 $ sbt
-sbt: geopoint-visualizer> run plot --swap --download --browser --img_size 1000 --arg1 "[[51.499619505045594, -0.12919985466434053], [51.50100111778079, -0.1260742794737267]]" --arg2 "[[51.49773913640009, -0.12759766906242925], [51.4976573794818, -0.12713802565204485]]" --arg3 "[[51.50098549574263, -0.12404558008490205]]"
+sbt: geopoint-visualizer> run plot --swap --download --browser --img_size 1000 --input "inputDir/input.json"
 ```
 
 ## Result

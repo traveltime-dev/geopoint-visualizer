@@ -1,7 +1,10 @@
 import Models._
-import play.api.libs.json.{JsValue, Json}
+import io.circe.{Json, Printer}
+import io.circe.syntax._
 
 object FeatureCreation {
+  private val noSpacesPrinter: Printer = Printer.noSpaces
+
   def createFeatureCollection(
       inputCoordinatesOneOpt: Option[CoordinatesList],
       colorOne: Color,
@@ -13,7 +16,7 @@ object FeatureCreation {
       colorFour: Color,
       inputCoordinatesFiveOpt: Option[CoordinatesList],
       colorFive: Color
-  ): JsValue = {
+  ): String = {
     val features = Seq(
       createFeatures(inputCoordinatesOneOpt, colorOne),
       createFeatures(inputCoordinatesTwoOpt, colorTwo),
@@ -22,32 +25,35 @@ object FeatureCreation {
       createFeatures(inputCoordinatesFiveOpt, colorFive)
     ).flatten
 
-    Json.obj(
-      "type" -> "FeatureCollection",
-      "features" -> features
+    val featureCollection = Json.obj(
+      "type" -> "FeatureCollection".asJson,
+      "features" -> features.asJson
     )
+
+    featureCollection.printWith(noSpacesPrinter)
   }
 
   private def createFeatures(
       inputCoordinatesOpt: Option[CoordinatesList],
       color: Color
-  ): List[JsValue] = {
+  ): List[Json] = {
     for {
       inputCoordinates <- inputCoordinatesOpt.toList
       coordinates <- inputCoordinates.points.zipWithIndex
-    } yield {
-      Json.obj(
-        "type" -> "Feature",
-        "properties" -> Json.obj(
-          "marker-color" -> color.hexValue,
-          "marker-size" -> "large",
-          "marker-symbol" -> (coordinates._2 + 1).toString
-        ),
-        "geometry" -> Json.obj(
-          "type" -> "Point",
-          "coordinates" -> List(coordinates._1.lat, coordinates._1.lng)
-        )
+    } yield Json.obj(
+      "type" -> "Feature".asJson,
+      "properties" -> Json.obj(
+        "marker-color" -> color.hexValue.asJson,
+        "marker-size" -> "large".asJson,
+        "marker-symbol" -> (coordinates._2 + 1).toString.asJson
+      ),
+      "geometry" -> Json.obj(
+        "type" -> "Point".asJson,
+        "coordinates" -> List(
+          coordinates._1.lat.asJson,
+          coordinates._1.lng.asJson
+        ).asJson
       )
-    }
+    )
   }
 }

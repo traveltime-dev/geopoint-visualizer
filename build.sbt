@@ -8,7 +8,6 @@ lazy val root = (project in file("."))
   )
 
 val circeVersion = "0.14.5"
-libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.4"
 libraryDependencies += "io.circe" %% "circe-core" % circeVersion
 libraryDependencies += "io.circe" %% "circe-parser" % circeVersion
 libraryDependencies += "io.circe" %% "circe-generic" % circeVersion

@@ -6,8 +6,7 @@ object Cli {
   private val swapFlag: Opts[Boolean] = Opts
     .flag(
       "swap",
-      help =
-        "Flag to indicate if latitude and longitude should be swapped (default - false)"
+      help = "Flag to indicate if latitude and longitude should be swapped"
     )
     .orFalse
 

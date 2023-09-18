@@ -2,9 +2,12 @@ import FeatureCreation.createFeatureCollection
 import Models.{CliArgs, FilePath}
 import Parsing.{parseInputCoordinates, readFile}
 import ImageGeneration.executeImageGeneration
+import cats.effect.{IO, Sync}
 import cats.effect.unsafe.implicits.global
+import cats.implicits.toFunctorOps
 
 import java.net.{URI, URLEncoder}
+import scala.concurrent.Future
 
 object AppRunner {
   def run(args: CliArgs): Unit = {
@@ -39,11 +42,21 @@ object AppRunner {
         s"https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson($encodedJsonString)/auto/${imageWidth}x$imageHeight?access_token=$apiKey"
       )
 
-    executeImageGeneration(
+    runIO(downloadFlag, browserFlag, outputPath, staticImageUri)
+      .unsafeRunSync()
+  }
+
+  private def runIO(
+      downloadFlag: Boolean,
+      browserFlag: Boolean,
+      outputPath: FilePath,
+      staticImageUri: URI
+  ): IO[Unit] = {
+    executeImageGeneration[IO](
       downloadFlag,
       browserFlag,
       outputPath,
       staticImageUri
-    ).unsafeRunSync()
+    ).map(_ => ())
   }
 }

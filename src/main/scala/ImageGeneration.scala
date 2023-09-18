@@ -4,49 +4,44 @@ import sttp.client4.{DefaultSyncBackend, UriContext, asByteArray, basicRequest}
 import java.awt.Desktop
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import cats.effect.IO
+import cats.effect.Sync
+import cats.implicits.{catsSyntaxTuple2Semigroupal, toFlatMapOps}
 
 object ImageGeneration {
-  private def openInBrowser(uri: URI): IO[Unit] = IO {
+  private def openInBrowser[F[_]: Sync](uri: URI): F[Unit] = Sync[F].delay {
     if (Desktop.isDesktopSupported) {
       Desktop.getDesktop.browse(uri)
     }
   }
 
-  private def downloadImage(outputPath: FilePath, uri: URI): IO[Unit] =
-    IO {
-      basicRequest
-        .get(uri"${uri.toString}")
-        .response(asByteArray)
-        .send(DefaultSyncBackend())
-        .body match {
-        case Left(message) => println(message)
+  private def downloadImage[F[_]: Sync](
+      outputPath: FilePath,
+      uri: URI
+  ): F[Unit] = {
+    val request = basicRequest
+      .get(uri"${uri.toString}")
+      .response(asByteArray)
+
+    Sync[F].delay(request.send(DefaultSyncBackend())).flatMap { response =>
+      response.body match {
+        case Left(message) => Sync[F].delay(println(message))
         case Right(byteArray) =>
-          Files.write(
-            Paths.get(outputPath.path),
-            byteArray
-          )
+          Sync[F].delay(Files.write(Paths.get(outputPath.path), byteArray))
       }
     }
+  }
 
-  def executeImageGeneration(
+  def executeImageGeneration[F[_]: Sync](
       downloadFlag: Boolean,
       browserFlag: Boolean,
       outputPath: FilePath,
       uri: URI
-  ): IO[Unit] = {
-    (downloadFlag, browserFlag) match {
-      case (false, false) =>
-        downloadImage(outputPath, uri).map(_ => ()) //default
-      case (true, false) =>
-        downloadImage(outputPath, uri).map(_ => ())
-      case (false, true) =>
-        openInBrowser(uri).map(_ => ())
-      case (true, true) =>
-        for {
-          _ <- downloadImage(outputPath, uri)
-          _ <- openInBrowser(uri)
-        } yield ()
-    }
+  ): F[Unit] = {
+    val downloadF: F[Unit] =
+      if (downloadFlag) downloadImage(outputPath, uri) else Sync[F].unit
+    val browserF: F[Unit] =
+      if (browserFlag) openInBrowser(uri) else Sync[F].unit
+
+    (downloadF, browserF).mapN((_, _) => ())
   }
 }

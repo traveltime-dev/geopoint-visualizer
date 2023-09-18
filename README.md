@@ -30,7 +30,7 @@ Options and flags:
     --help
         Display this help text.
     --swap
-        Flag to indicate if latitude and longitude should be swapped (default - false)
+        Flag to indicate if latitude and longitude should be swapped
     --download
         Flag to indicate if image should be downloaded to outputDir
     --browser
@@ -40,8 +40,6 @@ Options and flags:
     --input <string>
         Input file path (default - inputDir/input.json)
 ```
-
-If neither --download nor --browser flags are chosen, by default only --download will happen
 
 #### Example
 ```bash

@@ -12,7 +12,7 @@ object Models {
       downloadFlag: Boolean,
       browserFlag: Boolean,
       imageSize: Int,
-      inputFile: String
+      inputFile: FilePath
   )
 
   object CoordinatesList {

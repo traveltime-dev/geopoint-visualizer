@@ -1,4 +1,4 @@
-import Models.CliArgs
+import Models.{CliArgs, FilePath}
 import cats.implicits.catsSyntaxTuple5Semigroupal
 import com.monovore.decline._
 
@@ -29,13 +29,14 @@ object Cli {
       .option[Int]("img_size", help = "Image size 1-1280 (default - 1000)")
       .withDefault(1000)
 
-  private val inputFile: Opts[String] =
+  private val inputFile: Opts[FilePath] =
     Opts
       .option[String](
         "input",
         help = "Input file path (default - inputDir/input.json)"
       )
-      .withDefault("inputDir/input.json")
+      .map(FilePath)
+      .withDefault(FilePath("inputDir/input.json"))
 
   val command: Opts[CliArgs] = Opts.subcommand(
     Command(name = "plot", header = "Plots given points on a map")(

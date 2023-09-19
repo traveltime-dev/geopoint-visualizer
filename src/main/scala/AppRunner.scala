@@ -15,7 +15,7 @@ object AppRunner {
     val downloadFlag = args.downloadFlag
     val browserFlag = args.browserFlag
     val imageSize = args.imageSize
-    val inputFile = FilePath(args.inputFile)
+    val inputFile = args.inputFile
 
     val colors =
       LazyList.continually(List(Red, Blue, Green, Yellow, Purple)).flatten

@@ -1,4 +1,5 @@
-import AppRunner.run
+import AppRunner.runIO
+import Implicits.runtime
 import com.monovore.decline.CommandApp
 
 object MainApp
@@ -6,6 +7,6 @@ object MainApp
       name = "geopoint-visualizer",
       header = "Plots given points on a map",
       main = {
-        Cli.command.map(args => run(args))
+        Cli.command.map(args => runIO(args).unsafeRunSync())
       }
     )

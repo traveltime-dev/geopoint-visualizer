@@ -2,12 +2,12 @@ import FeatureCreation.createFeatureCollection
 import Models.{CliArgs, FilePath}
 import Parsing.{parseInputCoordinates, readFile}
 import ImageGeneration.executeImageGeneration
-import cats.effect.{IO, Sync}
+import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import cats.implicits.toFunctorOps
 
 import java.net.{URI, URLEncoder}
 import scala.concurrent.Future
+import scala.io.BufferedSource
 
 object AppRunner {
   def run(args: CliArgs): Unit = {
@@ -20,7 +20,7 @@ object AppRunner {
     val colors =
       LazyList.continually(List(Red, Blue, Green, Yellow, Purple)).flatten
 
-    val fileSource = readFile(inputFile)
+    val fileSource = readIO(inputFile).unsafeRunSync()
     val inputCoordinates = parseInputCoordinates(fileSource, swapFlag)
 
     val featureCollection = createFeatureCollection(
@@ -46,6 +46,9 @@ object AppRunner {
       .unsafeRunSync()
   }
 
+  private def readIO(inputFile: FilePath): IO[BufferedSource] = {
+    readFile[IO](inputFile)
+  }
   private def runIO(
       downloadFlag: Boolean,
       browserFlag: Boolean,

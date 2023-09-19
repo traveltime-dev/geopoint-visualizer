@@ -5,7 +5,7 @@ import java.awt.Desktop
 import java.net.URI
 import java.nio.file.{Files, Paths}
 import cats.effect.Sync
-import cats.implicits.{catsSyntaxTuple2Semigroupal, toFlatMapOps}
+import cats.implicits.catsSyntaxTuple2Semigroupal
 
 object ImageGeneration {
   private def openInBrowser[F[_]: Sync](uri: URI): F[Unit] = Sync[F].delay {
@@ -22,11 +22,11 @@ object ImageGeneration {
       .get(uri"${uri.toString}")
       .response(asByteArray)
 
-    Sync[F].delay(request.send(DefaultSyncBackend())).flatMap { response =>
-      response.body match {
-        case Left(message) => Sync[F].delay(println(message))
+    Sync[F].delay {
+      request.send(DefaultSyncBackend()).body match {
+        case Left(message) => println(message)
         case Right(byteArray) =>
-          Sync[F].delay(Files.write(Paths.get(outputPath.path), byteArray))
+          Files.write(Paths.get(outputPath.path), byteArray)
       }
     }
   }

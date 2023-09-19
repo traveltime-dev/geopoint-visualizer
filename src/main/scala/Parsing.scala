@@ -1,11 +1,12 @@
 import Models.{CoordinatesList, FilePath, Point}
+import cats.effect.Sync
 import io.circe.parser.parse
 
 import scala.io.{BufferedSource, Source}
 
 object Parsing {
-  def readFile(filePath: FilePath): BufferedSource = {
-    Source.fromFile(filePath.path)
+  def readFile[F[_]: Sync](filePath: FilePath): F[BufferedSource] = {
+    Sync[F].delay(Source.fromFile(filePath.path))
   }
 
   def parseInputCoordinates(

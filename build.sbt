@@ -13,6 +13,7 @@ libraryDependencies ++= Seq(
   "io.circe" %% "circe-parser" % circeVersion,
   "io.circe" %% "circe-generic" % circeVersion,
   "com.monovore" %% "decline" % "2.4.1",
-  "com.softwaremill.sttp.client4" %% "core" % "4.0.0-M4",
+  "com.softwaremill.sttp.client4" %% "core" % "4.0.0-M5",
+  "com.softwaremill.sttp.client4" %% "cats" % "4.0.0-M5",
   "org.typelevel" %% "cats-effect" % "3.5.1"
 )

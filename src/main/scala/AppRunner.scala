@@ -2,7 +2,8 @@ import FeatureCreation.createFeatureCollection
 import Models.{CliArgs, FilePath}
 import Parsing.{parseInputCoordinates, readFile}
 import ImageGeneration.executeImageGeneration
-import cats.effect.IO
+import cats.effect.{IO, Sync}
+
 import java.net.{URI, URLEncoder}
 
 object AppRunner {
@@ -17,7 +18,7 @@ object AppRunner {
     val colors =
       LazyList.continually(List(Red, Blue, Green, Yellow, Purple)).flatten
 
-    for {
+    (for {
       fileSource <- readFile[IO](inputFile)
       inputCoordinates = parseInputCoordinates(fileSource, swapFlag)
       featureCollection = createFeatureCollection(inputCoordinates, colors)
@@ -32,7 +33,12 @@ object AppRunner {
         outputPath,
         staticImageUri
       )
-    } yield ()
+    } yield ()).attempt.flatMap {
+      case Left(e) =>
+        Sync[IO].delay(println(s"ERROR: ${e.getMessage}"))
+      case Right(_) =>
+        Sync[IO].pure(())
+    }
   }
 
   private def getApiKey: String = {

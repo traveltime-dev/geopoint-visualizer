@@ -8,6 +8,7 @@ object Models {
   case class Point(lat: Double, lng: Double)
 
   case class CliArgs(
+      apiToken: String,
       swapFlag: Boolean,
       downloadFlag: Boolean,
       browserFlag: Boolean,

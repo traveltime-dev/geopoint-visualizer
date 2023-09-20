@@ -1,8 +1,15 @@
 import Models.{CliArgs, FilePath}
-import cats.implicits.catsSyntaxTuple5Semigroupal
+import cats.implicits.{catsSyntaxTuple5Semigroupal, catsSyntaxTuple6Semigroupal}
 import com.monovore.decline._
 
 object Cli {
+  private val apiToken: Opts[String] =
+    Opts
+      .option[String](
+        "token",
+        help = "Mapbox api token"
+      )
+
   private val swapFlag: Opts[Boolean] = Opts
     .flag(
       "swap",
@@ -41,6 +48,7 @@ object Cli {
   val command: Opts[CliArgs] = Opts.subcommand(
     Command(name = "plot", header = "Plots given points on a map")(
       (
+        apiToken,
         swapFlag,
         downloadFlag,
         browserFlag,

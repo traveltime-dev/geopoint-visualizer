@@ -1,10 +1,11 @@
 import Models.FilePath
 import cats.NonEmptyParallel
 import sttp.client4.{UriContext, asByteArray, basicRequest}
+
 import java.awt.Desktop
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import cats.effect.Async
+import cats.effect.{Async, Sync}
 import cats.implicits.{
   catsSyntaxApplicativeError,
   catsSyntaxTuple2Parallel,
@@ -13,11 +14,11 @@ import cats.implicits.{
 import sttp.client4.httpclient.cats.HttpClientCatsBackend
 
 object ImageGeneration {
-  private def openInBrowser[F[_]: Async](uri: URI): F[Unit] = {
-    Async[F]
+  private def openInBrowser[F[_]: Sync](uri: URI): F[Unit] = {
+    Sync[F]
       .delay(if (Desktop.isDesktopSupported) Desktop.getDesktop.browse(uri))
       .handleErrorWith { error =>
-        Async[F].delay(
+        Sync[F].delay(
           println(s"Failed to open URI in browser: ${error.getMessage}")
         )
       }

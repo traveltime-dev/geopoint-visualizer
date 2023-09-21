@@ -23,6 +23,7 @@ outputDir
 
 logs/
 
+# metals lsp files
 .bloop
 .metals
 metals.sbt

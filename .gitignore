@@ -22,3 +22,7 @@ build/
 outputDir
 
 logs/
+
+.bloop
+.metals
+metals.sbt

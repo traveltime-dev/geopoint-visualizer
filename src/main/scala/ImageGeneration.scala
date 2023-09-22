@@ -1,6 +1,6 @@
 import Models.FilePath
 import cats.NonEmptyParallel
-import sttp.client4.{UriContext, asByteArray, basicRequest}
+import sttp.client3.{UriContext, asByteArray, basicRequest}
 
 import java.awt.Desktop
 import java.net.URI
@@ -11,7 +11,7 @@ import cats.implicits.{
   catsSyntaxTuple2Parallel,
   toFlatMapOps
 }
-import sttp.client4.httpclient.cats.HttpClientCatsBackend
+import sttp.client3.httpclient.cats.HttpClientCatsBackend
 
 object ImageGeneration {
   private def openInBrowser[F[_]: Sync](uri: URI): F[Unit] = {

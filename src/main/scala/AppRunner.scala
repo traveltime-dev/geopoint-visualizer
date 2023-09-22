@@ -3,7 +3,6 @@ import Models.{CliArgs, FilePath}
 import Parsing.{parseInputCoordinates, readFile}
 import ImageGeneration.executeImageGeneration
 import cats.effect.{IO, Sync}
-
 import java.net.{URI, URLEncoder}
 
 object AppRunner {

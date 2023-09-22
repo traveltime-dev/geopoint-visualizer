@@ -1,5 +1,5 @@
 import Models.{CliArgs, FilePath}
-import cats.implicits.{catsSyntaxTuple5Semigroupal, catsSyntaxTuple6Semigroupal}
+import cats.implicits.catsSyntaxTuple6Semigroupal
 import com.monovore.decline._
 
 object Cli {

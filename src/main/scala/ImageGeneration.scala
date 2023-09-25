@@ -1,62 +1,57 @@
 import Models.FilePath
-import cats.NonEmptyParallel
-import sttp.client3.{UriContext, asByteArray, basicRequest}
+import cats.MonadError
+import sttp.client3.{SttpBackend, UriContext, asByteArray, basicRequest}
 
 import java.awt.Desktop
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import cats.effect.{Async, Sync}
 import cats.implicits.{
-  catsSyntaxApplicativeError,
-  catsSyntaxTuple2Parallel,
+  catsSyntaxTuple2Semigroupal,
   toFlatMapOps
 }
-import sttp.client3.httpclient.cats.HttpClientCatsBackend
 
 object ImageGeneration {
-  private def openInBrowser[F[_]: Sync](uri: URI): F[Unit] = {
-    Sync[F]
-      .delay(if (Desktop.isDesktopSupported) Desktop.getDesktop.browse(uri))
-      .handleErrorWith { error =>
-        Sync[F].delay(
-          println(s"Failed to open URI in browser: ${error.getMessage}")
-        )
-      }
+  private def openInBrowser[F[_]](
+      uri: URI
+  )(implicit ME: MonadError[F, Throwable]): F[Unit] = {
+    if (Desktop.isDesktopSupported) ME.pure(Desktop.getDesktop.browse(uri))
+    else ME.raiseError(new Exception("Desktop is not supported"))
   }
 
-  private def downloadImage[F[_]: Async](
-      outputPath: FilePath,
-      uri: URI
+  private def downloadImage[F[_], P](
+      outputPath: String,
+      uri: URI,
+      backend: SttpBackend[F, P]
+  )(implicit
+      ME: MonadError[F, Throwable]
   ): F[Unit] = {
-    val request = basicRequest
-      .get(uri"${uri.toString}")
-      .response(asByteArray)
+    val request = basicRequest.get(uri"${uri.toString}").response(asByteArray)
 
-    HttpClientCatsBackend.resource[F]().use { backend =>
-      request.send(backend).flatMap { response =>
-        response.body match {
-          case Left(message) =>
-            Async[F].raiseError[Unit](
-              new Exception(s"Failed to download image: $message")
-            )
-          case Right(byteArray) =>
-            Async[F].delay(Files.write(Paths.get(outputPath.path), byteArray))
-        }
+    request.send(backend).flatMap { response =>
+      response.body match {
+        case Left(message) =>
+          ME.raiseError(new Exception(s"Failed to download image: $message"))
+        case Right(byteArray) =>
+          ME.pure(Files.write(Paths.get(outputPath), byteArray))
       }
     }
   }
 
-  def executeImageGeneration[F[_]: Async: NonEmptyParallel](
+  def executeImageGeneration[F[_], P](
       downloadFlag: Boolean,
       browserFlag: Boolean,
       outputPath: FilePath,
-      uri: URI
-  ): F[Unit] = {
+      uri: URI,
+      backend: SttpBackend[F, P]
+  )(implicit ME: MonadError[F, Throwable]): F[Unit] = {
     val downloadF: F[Unit] =
-      if (downloadFlag) downloadImage(outputPath, uri) else Async[F].unit
-    val browserF: F[Unit] =
-      if (browserFlag) openInBrowser(uri) else Async[F].unit
+      if (downloadFlag) downloadImage(outputPath.path, uri, backend)
+      else ME.pure(())
 
-    (downloadF, browserF).parMapN((_, _) => ())
+    val browserF: F[Unit] =
+      if (browserFlag) openInBrowser(uri)
+      else ME.pure(())
+
+    (downloadF, browserF).mapN((_, _) => ())
   }
 }

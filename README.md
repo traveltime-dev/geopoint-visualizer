@@ -23,7 +23,7 @@ Use your `Default public token` (or create a new one)
 Start sbt, pass in input. `run plot --help` for help
 
 ```
-Usage: geopoint-visualizer plot --token <string> [--swap] [--download] [--browser] [--img_size <integer>] [--input <string>]
+Usage: geopoint-visualizer plot --token <string> [--swap] [--download] [--browser] [--future] [--img_size <integer>] [--input <string>]
 
 Plots given points on a map
 
@@ -38,6 +38,8 @@ Options and flags:
         Flag to indicate if image should be downloaded to outputDir
     --browser
         Flag to indicate if image should be opened in browser
+    --future
+        Flag to indicate if app should be run using Futures instead of IO (cats effect)
     --img_size <integer>
         Image size 1-1280 (default - 1000)
     --input <string>
@@ -48,7 +50,7 @@ Options and flags:
 ```bash
 $ sbt "run plot --token <your_api_token> --swap --download --browser --img_size 1000 --input inputDir/input.json"
 
-$ sbt "run plot --token <your_api_token> --swap --download --browser" //use default image size and input file
+$ sbt "run plot --token <your_api_token> --swap --download --browser --future" //use default image size and input file and use Future
 ```
 
 ## Result

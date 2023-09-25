@@ -12,6 +12,7 @@ object Models {
       swapFlag: Boolean,
       downloadFlag: Boolean,
       browserFlag: Boolean,
+      futureFlag: Boolean,
       imageSize: Int,
       inputFile: FilePath
   )

@@ -1,5 +1,5 @@
 import Models.{CliArgs, FilePath}
-import cats.implicits.catsSyntaxTuple6Semigroupal
+import cats.implicits.catsSyntaxTuple7Semigroupal
 import com.monovore.decline._
 
 object Cli {
@@ -31,6 +31,14 @@ object Cli {
     )
     .orFalse
 
+  private val futureFlag: Opts[Boolean] = Opts
+    .flag(
+      "future",
+      help =
+        "Flag to indicate if app should be run using Futures instead of IO (cats effect)"
+    )
+    .orFalse
+
   private val imageSize: Opts[Int] =
     Opts
       .option[Int]("img_size", help = "Image size 1-1280 (default - 1000)")
@@ -52,6 +60,7 @@ object Cli {
         swapFlag,
         downloadFlag,
         browserFlag,
+        futureFlag,
         imageSize,
         inputFile
       ).mapN(CliArgs)

@@ -1,11 +1,8 @@
-import Models.FilePath
 import cats.MonadError
 import sttp.client3.{SttpBackend, UriContext, asByteArray, basicRequest}
-
-import java.awt.Desktop
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import cats.implicits.{catsSyntaxTuple2Semigroupal, toFlatMapOps}
+import cats.implicits.toFlatMapOps
 
 object ImageGeneration {
   def downloadImage[F[_], P](

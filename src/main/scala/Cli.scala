@@ -1,5 +1,5 @@
 import Models.{CliArgs, FilePath}
-import cats.implicits.catsSyntaxTuple7Semigroupal
+import cats.implicits.catsSyntaxTuple5Semigroupal
 import com.monovore.decline._
 
 object Cli {
@@ -14,20 +14,6 @@ object Cli {
     .flag(
       "swap",
       help = "Flag to indicate if latitude and longitude should be swapped"
-    )
-    .orFalse
-
-  private val downloadFlag: Opts[Boolean] = Opts
-    .flag(
-      "download",
-      help = "Flag to indicate if image should be downloaded to outputDir"
-    )
-    .orFalse
-
-  private val browserFlag: Opts[Boolean] = Opts
-    .flag(
-      "browser",
-      help = "Flag to indicate if image should be opened in browser"
     )
     .orFalse
 
@@ -58,8 +44,6 @@ object Cli {
       (
         apiToken,
         swapFlag,
-        downloadFlag,
-        browserFlag,
         futureFlag,
         imageSize,
         inputFile

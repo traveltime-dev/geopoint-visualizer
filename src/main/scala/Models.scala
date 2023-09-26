@@ -10,8 +10,6 @@ object Models {
   case class CliArgs(
       apiToken: String,
       swapFlag: Boolean,
-      downloadFlag: Boolean,
-      browserFlag: Boolean,
       futureFlag: Boolean,
       imageSize: Int,
       inputFile: FilePath

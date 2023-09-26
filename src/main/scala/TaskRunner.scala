@@ -1,10 +1,11 @@
 import FeatureCreation.createFeatureCollection
 import Models.{CliArgs, FilePath}
 import Parsing.{parseInputCoordinates, readFile}
-import ImageGeneration.executeImageGeneration
+import ImageGeneration.downloadImage
 import cats.effect.{IO, Sync}
 import sttp.client3.HttpClientFutureBackend
 import sttp.client3.httpclient.cats.HttpClientCatsBackend
+
 import java.net.{URI, URLEncoder}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
@@ -12,8 +13,6 @@ import scala.util.{Failure, Success}
 object TaskRunner {
   def runIO(args: CliArgs, colors: LazyList[Color]): IO[Unit] = {
     val swapFlag = args.swapFlag
-    val downloadFlag = args.downloadFlag
-    val browserFlag = args.browserFlag
     val imageSize = args.imageSize
     val inputFile = args.inputFile
     val apiToken = args.apiToken
@@ -30,13 +29,7 @@ object TaskRunner {
       )
 
       _ <- HttpClientCatsBackend.resource[IO]().use { backend =>
-        executeImageGeneration(
-          downloadFlag,
-          browserFlag,
-          outputPath,
-          staticImageUri,
-          backend
-        )
+        downloadImage(outputPath.path, staticImageUri, backend)
       }
 
     } yield ()).attempt.flatMap {
@@ -51,8 +44,6 @@ object TaskRunner {
       ec: ExecutionContext
   ): Future[Unit] = {
     val swapFlag = args.swapFlag
-    val downloadFlag = args.downloadFlag
-    val browserFlag = args.browserFlag
     val imageSize = args.imageSize
     val inputFile = args.inputFile
     val apiToken = args.apiToken
@@ -68,10 +59,8 @@ object TaskRunner {
           s"/auto/${imageSize}x$imageSize?access_token=$apiToken"
       )
 
-      _ <- executeImageGeneration(
-        downloadFlag,
-        browserFlag,
-        outputPath,
+      _ <- downloadImage(
+        outputPath.path,
         staticImageUri,
         HttpClientFutureBackend()
       )

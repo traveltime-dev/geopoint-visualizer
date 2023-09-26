@@ -12,7 +12,7 @@ object UnsafeRun {
     val imageSize = args.imageSize
     val inputFile = args.inputFile
     val apiToken = args.apiToken
-    val outputPath = FilePath("outputDir/output.png")
+    val outputPath = FilePath("output.png")
 
     val colors =
       LazyList.continually(List(Red, Blue, Green, Yellow, Purple)).flatten

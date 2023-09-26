@@ -9,7 +9,7 @@ object Parsing {
   def readFile[F[_]](
       filePath: FilePath
   )(implicit ME: MonadError[F, Throwable]): F[BufferedSource] = {
-    ME.pure(Source.fromFile(filePath.path)).handleErrorWith { e =>
+    ME.catchNonFatal(Source.fromFile(filePath.path)).handleErrorWith { e =>
       ME.raiseError(new Exception(s"Failed to read file: ${filePath.path}", e))
     }
   }

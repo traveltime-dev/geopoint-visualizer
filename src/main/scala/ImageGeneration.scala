@@ -5,16 +5,14 @@ import sttp.client3.{SttpBackend, UriContext, asByteArray, basicRequest}
 import java.awt.Desktop
 import java.net.URI
 import java.nio.file.{Files, Paths}
-import cats.implicits.{
-  catsSyntaxTuple2Semigroupal,
-  toFlatMapOps
-}
+import cats.implicits.{catsSyntaxTuple2Semigroupal, toFlatMapOps}
 
 object ImageGeneration {
   private def openInBrowser[F[_]](
       uri: URI
   )(implicit ME: MonadError[F, Throwable]): F[Unit] = {
-    if (Desktop.isDesktopSupported) ME.pure(Desktop.getDesktop.browse(uri))
+    if (Desktop.isDesktopSupported)
+      ME.catchNonFatal(Desktop.getDesktop.browse(uri))
     else ME.raiseError(new Exception("Desktop is not supported"))
   }
 
@@ -32,7 +30,7 @@ object ImageGeneration {
         case Left(message) =>
           ME.raiseError(new Exception(s"Failed to download image: $message"))
         case Right(byteArray) =>
-          ME.pure(Files.write(Paths.get(outputPath), byteArray))
+          ME.catchNonFatal(Files.write(Paths.get(outputPath), byteArray))
       }
     }
   }

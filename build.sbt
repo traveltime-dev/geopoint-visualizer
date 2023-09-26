@@ -17,3 +17,6 @@ libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client3" %% "cats" % "3.9.0",
   "org.typelevel" %% "cats-effect" % "3.5.1"
 )
+libraryDependencies ++= Seq(
+  "org.scalatest" %% "scalatest" % "3.2.15" % Test
+)

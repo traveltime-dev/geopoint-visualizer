@@ -12,10 +12,9 @@ sbt "run plot --token pk.eyJ1IjoiYXJuYXNiciIsImEiOiJjbG00dXY1MDAybGJrM2RwNnE2dmo
 # Wait for the image to be downloaded
 sleep 10
 
-echo "Checking if file was downloaded"
-cd outputDir
-ls
-cd ..
+echo "File differences"
+cmp -l "outputDir/output.png" "integrationTestData/integrationTestOutput.png"
+diff "outputDir/output.png" "integrationTestData/integrationTestOutput.png"
 
 # Check if the newly downloaded image matches the expected image
 if cmp -s "outputDir/output.png" "integrationTestData/integrationTestOutput.png"; then

@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Debugging
-        run: ls -l && pwd && printenv
       - name: Set execute permissions on script
         run: chmod +x ./integrationTest.sh
       - name: Run integration test

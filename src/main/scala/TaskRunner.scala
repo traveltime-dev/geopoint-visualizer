@@ -35,7 +35,7 @@ object TaskRunner {
     } yield ()).attempt
       .flatMap {
         case Left(e) =>
-          Sync[IO].delay(println(s"ERROR: ${e.getMessage}"))
+          Sync[IO].delay(println(s"ERROR: ${e.toString}"))
         case Right(_) =>
           Sync[IO].pure(())
       }
@@ -68,7 +68,7 @@ object TaskRunner {
     } yield ()).transform {
       case Success(_) => Success(())
       case Failure(e) =>
-        println(s"ERROR: ${e.getMessage}")
+        println(s"ERROR: ${e.toString}")
         Failure(e)
     }
   }

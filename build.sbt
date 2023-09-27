@@ -1,4 +1,28 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
+import com.typesafe.sbt.packager.docker.DockerPermissionStrategy
+
+enablePlugins(DockerPlugin, JavaAppPackaging, GitVersioning)
+
+name := "geopoint-visualizer"
+organization := "ch.epfl.scala"
+version := git.gitHeadCommit.value.getOrElse("0.1").take(5)
+
+Docker / packageName := packageName.value
+Docker / version := version.value
+dockerBaseImage := "openjdk:11"
+dockerExposedPorts := Seq(9000, 9443)
+dockerExposedVolumes := Seq("/app/logs")
+dockerExposedVolumes := Seq(
+  "/app/inputDir",
+  "/app/outputDir"
+)
+Docker / defaultLinuxInstallLocation := "/app"
+Docker / daemonUserUid := None
+Docker / daemonUser := "daemon"
+
+dockerRepository := Some("arnasbr")
+dockerUpdateLatest := true
+dockerPermissionStrategy := DockerPermissionStrategy.MultiStage
+Docker / dockerGroupLayers := PartialFunction.empty
 
 ThisBuild / scalaVersion := "2.13.11"
 

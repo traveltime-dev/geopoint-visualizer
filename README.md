@@ -49,6 +49,20 @@ $ sbt "run plot --token <your_api_token> --swap --img_size 1000 --input inputDir
 $ sbt "run plot --token <your_api_token> --swap --future" //use default image size and input file and use Future
 ```
 
+#### Running with Docker
+```bash
+$ docker run\ 
+  --user $(id -u):$(id -g) \ 
+  -v ./inputDir:/app/inputDir \
+  -v ./outputDir:/app/outputDir \
+  -it arnasbr/geopoint-visualizer:latest \
+  plot \ 
+  --token <your_api_token> \
+  --swap
+```
+
+When using a different input file than the default inputDir/input.json, don't forget to change the -v volume and use the --input tag.
+
 ## Result
 
 ![image](https://github.com/arnasbr/geopoint-visualizer/assets/140691866/dd311615-b5e2-4135-b26b-3f69e4e73a20)

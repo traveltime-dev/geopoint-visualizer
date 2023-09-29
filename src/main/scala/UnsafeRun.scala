@@ -7,11 +7,7 @@ import scala.concurrent.duration.Duration
 
 object UnsafeRun {
   def unsafeRun(args: CliArgs): Unit = {
-    val futureFlag = args.futureFlag
-    val swapFlag = args.swapFlag
-    val imageSize = args.imageSize
-    val inputFile = args.inputFile
-    val apiToken = args.apiToken
+    import args._
     val outputPath = FilePath("outputDir/output.png")
 
     val colors =

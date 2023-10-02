@@ -1,11 +1,17 @@
 import Models.{CoordinatesList, FilePath, Point}
+import cats.MonadError
+import cats.implicits.catsSyntaxApplicativeError
 import io.circe.parser.parse
 
 import scala.io.{BufferedSource, Source}
 
 object Parsing {
-  def readFile(filePath: FilePath): BufferedSource = {
-    Source.fromFile(filePath.path)
+  def readFile[F[_]](
+      filePath: FilePath
+  )(implicit ME: MonadError[F, Throwable]): F[BufferedSource] = {
+    ME.catchNonFatal(Source.fromFile(filePath.path)).handleErrorWith { e =>
+      ME.raiseError(new Exception(s"Failed to read file: ${filePath.path}", e))
+    }
   }
 
   def parseInputCoordinates(

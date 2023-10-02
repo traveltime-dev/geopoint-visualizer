@@ -19,6 +19,9 @@ build/
 .idea
 .bsp
 
-outputDir
-
 logs/
+
+# metals lsp files
+.bloop
+.metals
+metals.sbt

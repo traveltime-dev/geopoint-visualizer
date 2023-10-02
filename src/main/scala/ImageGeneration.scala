@@ -1,52 +1,26 @@
-import Models.FilePath
-import sttp.client4.{DefaultSyncBackend, UriContext, asByteArray, basicRequest}
-
-import java.awt.Desktop
-import java.net.URI
+import cats.MonadError
+import sttp.client3.{SttpBackend, UriContext, asByteArray, basicRequest}
 import java.nio.file.{Files, Paths}
-import cats.effect.IO
+import cats.implicits.toFlatMapOps
+import sttp.model.Uri
 
 object ImageGeneration {
-  private def openInBrowser(uri: URI): IO[Unit] = IO {
-    if (Desktop.isDesktopSupported) {
-      Desktop.getDesktop.browse(uri)
-    }
-  }
+  def downloadImage[F[_], P](
+      outputPath: String,
+      uri: Uri,
+      backend: SttpBackend[F, P]
+  )(implicit
+      ME: MonadError[F, Throwable]
+  ): F[Unit] = {
+    val request = basicRequest.get(uri"${uri.toString}").response(asByteArray)
 
-  private def downloadImage(outputPath: FilePath, uri: URI): IO[Unit] =
-    IO {
-      basicRequest
-        .get(uri"${uri.toString}")
-        .response(asByteArray)
-        .send(DefaultSyncBackend())
-        .body match {
-        case Left(message) => println(message)
+    request.send(backend).flatMap { response =>
+      response.body match {
+        case Left(message) =>
+          ME.raiseError(new Exception(s"Failed to download image: $message"))
         case Right(byteArray) =>
-          Files.write(
-            Paths.get(outputPath.path),
-            byteArray
-          )
+          ME.catchNonFatal(Files.write(Paths.get(outputPath), byteArray))
       }
-    }
-
-  def executeImageGeneration(
-      downloadFlag: Boolean,
-      browserFlag: Boolean,
-      outputPath: FilePath,
-      uri: URI
-  ): IO[Unit] = {
-    (downloadFlag, browserFlag) match {
-      case (false, false) =>
-        downloadImage(outputPath, uri).map(_ => ()) //default
-      case (true, false) =>
-        downloadImage(outputPath, uri).map(_ => ())
-      case (false, true) =>
-        openInBrowser(uri).map(_ => ())
-      case (true, true) =>
-        for {
-          _ <- downloadImage(outputPath, uri)
-          _ <- openInBrowser(uri)
-        } yield ()
     }
   }
 }

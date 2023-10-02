@@ -17,7 +17,7 @@ object FeatureCreation {
     featureCollection.printWith(Printer.noSpaces)
   }
 
-  private def createFeatures(
+  def createFeatures(
       inputCoordinatesListOpt: Option[List[CoordinatesList]],
       colors: LazyList[Color]
   ): List[Json] = {

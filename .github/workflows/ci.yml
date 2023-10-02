@@ -16,7 +16,9 @@ jobs:
       - name: Set execute permissions on script
         run: chmod +x ./integrationTest.sh
       - name: Run integration test
-        run: ./integrationTest.sh
+        env:
+          MAPBOX_API_TOKEN: ${{ secrets.MAPBOX_API_TOKEN }}
+        run: ./integrationTest.sh "$MAPBOX_API_TOKEN"
   lint:
     runs-on: ubuntu-latest
     steps:

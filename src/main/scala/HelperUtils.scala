@@ -1,8 +1,8 @@
 import FeatureCreation.createFeatureCollection
 import Parsing.parseInputCoordinates
-
-import java.net.{URI, URLEncoder}
+import sttp.client3.UriContext
 import scala.io.BufferedSource
+import sttp.model.Uri
 
 object HelperUtils {
   def generateStaticImageUri(
@@ -11,14 +11,10 @@ object HelperUtils {
       colors: LazyList[Color],
       imageSize: Int,
       apiToken: String
-  ): URI = {
+  ): Uri = {
     val inputCoordinates = parseInputCoordinates(fileSource, swapFlag)
     val featureCollection = createFeatureCollection(inputCoordinates, colors)
-    val encodedJsonString = URLEncoder.encode(featureCollection, "UTF-8")
 
-    new URI(
-      s"https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson($encodedJsonString)" +
-        s"/auto/${imageSize}x$imageSize?access_token=$apiToken"
-    )
+    uri"https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson($featureCollection)/auto/${imageSize}x$imageSize?access_token=$apiToken"
   }
 }

@@ -1,13 +1,13 @@
 import cats.MonadError
 import sttp.client3.{SttpBackend, UriContext, asByteArray, basicRequest}
-import java.net.URI
 import java.nio.file.{Files, Paths}
 import cats.implicits.toFlatMapOps
+import sttp.model.Uri
 
 object ImageGeneration {
   def downloadImage[F[_], P](
       outputPath: String,
-      uri: URI,
+      uri: Uri,
       backend: SttpBackend[F, P]
   )(implicit
       ME: MonadError[F, Throwable]

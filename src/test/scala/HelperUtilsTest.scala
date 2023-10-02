@@ -1,5 +1,6 @@
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import sttp.model.Uri
 
 import java.io.ByteArrayInputStream
 import java.net.URI
@@ -19,7 +20,7 @@ class HelperUtilsTest extends AnyFlatSpec with Matchers {
     val imageSize = 400
     val apiToken = "your-api-token"
 
-    val uri = HelperUtils.generateStaticImageUri(
+    val uri: Uri = HelperUtils.generateStaticImageUri(
       bufferedSource,
       swapFlag,
       colors,
@@ -27,7 +28,7 @@ class HelperUtilsTest extends AnyFlatSpec with Matchers {
       apiToken
     )
 
-    uri shouldBe a[URI]
+    uri shouldBe a[Uri]
     uri.toString should include(
       "https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/geojson("
     )

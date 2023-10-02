@@ -33,8 +33,6 @@ libraryDependencies ++= Seq(
   "com.monovore" %% "decline" % "2.4.1",
   "com.softwaremill.sttp.client3" %% "core" % "3.9.0",
   "com.softwaremill.sttp.client3" %% "cats" % "3.9.0",
-  "org.typelevel" %% "cats-effect" % "3.5.1"
-)
-libraryDependencies ++= Seq(
+  "org.typelevel" %% "cats-effect" % "3.5.1",
   "org.scalatest" %% "scalatest" % "3.2.15" % Test
 )
